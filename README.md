@@ -1,2 +1,2 @@
-# HTMX-Lit-Go
-experimental repo to gain knowledge of HTMX, Lit and Go
+# htmx-server
+experimental repo to gain knowledge of HTMX and Go
