@@ -6,10 +6,10 @@ on:
       component_name:
         description: 'select the component that should be approved'
         required: true
-        type: choise
+        type: choice
         options:
-        - "Button Primary"
-        - Link
+          - "Button Primary"
+          - Link
 
 jobs:
   # This workflow contains a single job called "greet"
