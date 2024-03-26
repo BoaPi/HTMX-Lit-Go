@@ -1,0 +1,12 @@
+package templates
+
+import ()
+
+templ Page() {
+	<header>htmx-server</header>
+	<main>
+		{ children... }
+	</main>
+	<footer></footer>
+	<script type="text/javascript" src="./static/htmx.min.js"></script>
+}
