@@ -37,4 +37,9 @@ serve: generate run
 
 .PHONY: watch
 watch:		## watch go and templ files, rebuild and restart server. Based of "fd" and "entr" unix utility tools
-	fd --exclude '*_templ.go' | entr -rs 'make generate && sh watch.sh main.go'
+	fd \
+	--exclude '*_templ.go' \
+	--exclude 'Makefile' \
+	-e go \
+	-e templ \
+	| entr -rsc 'make generate && sh watch.sh main.go'
