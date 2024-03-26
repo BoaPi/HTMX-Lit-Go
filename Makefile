@@ -13,10 +13,11 @@ help:		## Show this help
 .PHONY: install
 install:	## Install dependencies
 	go mod tidy
+	go install github.com/a-h/templ/cmd/templ@latest
 
 .PHONY: build
 build:		## Build the project
-	go build .
+	go build -o dist/ .
 
 .PHONY: generate
 generate:	## generates templates from templ files
@@ -32,4 +33,8 @@ run:		## runs the build server
 
 .PHONY: serve
 serve:		## build server and start it running
-serve: build run
+serve: generate run
+
+.PHONY: watch
+watch:		## watch go and templ files, rebuild and restart server. Based of "fd" and "entr" unix utility tools
+	fd --exclude '*_templ.go' | entr -rs 'make generate && sh watch.sh main.go'
