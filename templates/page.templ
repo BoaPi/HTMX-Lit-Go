@@ -3,10 +3,23 @@ package templates
 import ()
 
 templ Page() {
-	<header>htmx-server</header>
-	<main>
-		{ children... }
-	</main>
-	<footer></footer>
-	<script type="text/javascript" src="./static/htmx.min.js"></script>
+	<!DOCTYPE html>
+	<html>
+		<body>
+			<header>
+				<h1>htmx-server</h1>
+				<nav>
+					<ul>
+						<li><a href="/">Home</a></li>
+						<li><a href="/board">Board</a></li>
+					</ul>
+				</nav>
+			</header>
+			<main>
+				{ children... }
+			</main>
+			<footer></footer>
+			<script async type="text/javascript" src="/static/htmx.min.js"></script>
+		</body>
+	</html>
 }
