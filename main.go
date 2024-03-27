@@ -3,34 +3,39 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"strconv"
-	"time"
 
-	"htmx-server/templates"
+	"education-htmx-server/handler"
+	"education-htmx-server/middleware"
+	"education-htmx-server/templates"
 
 	"github.com/a-h/templ"
 )
 
-func timerHandler(w http.ResponseWriter, r *http.Request) {
-	currentTime := time.Now()
-
-	currentSeconds := currentTime.Second()
-
-	fmt.Fprintf(w, "Current seconds: %s", strconv.Itoa(currentSeconds))
-}
-
 func main() {
-	// setup static file serving for vendor file like hmtx
-	vendor := "./static"
-	fileServer := http.FileServer(http.Dir(vendor))
+	// setup router
+	router := http.NewServeMux()
 
-	// setup server and handler
-	http.Handle("/static/", http.StripPrefix("/static/", fileServer))
-	http.Handle("/", templ.Handler(templates.Page()))
+	// setup static file serving for static file like hmtx
+	static := "./static"
+	fileServer := http.FileServer(http.Dir(static))
 
-	// timer
-	http.HandleFunc("/timer", timerHandler)
+	// file server handler
+	router.Handle("/static/", http.StripPrefix("/static/", fileServer))
 
+	// pages handler
+	router.Handle("/", templ.Handler(templates.Home()))
+	router.Handle("/board", templ.Handler(templates.Board()))
+
+	// partial handler
+	router.HandleFunc("GET /timer", handler.Timer)
+
+	// server settings
+	server := http.Server{
+		Addr:    "localhost:8080",
+		Handler: middleware.Logger(router),
+	}
+
+	// start server
 	fmt.Printf("Run Server and Serving on http://localhost:8080\n")
-	http.ListenAndServe("localhost:8080", nil)
+	server.ListenAndServe()
 }
