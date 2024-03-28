@@ -39,12 +39,10 @@ func main() {
 	router.Handle("/static/", http.StripPrefix("/static/", fileServer))
 
 	// pages handler
-	// router.Handle("/", templ.Handler(partials.Home()))
 	// router.Handle("/board", templ.Handler(partials.Board()))
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
 		views.templates.ExecuteTemplate(w, "index", Data{Count: count})
-		// increase amount of calls
 		count++
 	})
 
